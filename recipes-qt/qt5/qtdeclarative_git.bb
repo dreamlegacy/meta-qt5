@@ -18,7 +18,7 @@ SRC_URI += " \
     file://0002-qquickviewcomparison-fix-QCoreApplication-has-not-be.patch \
 "
 
-EXTRA_OEMAKE += "QMAKE_SYNCQT=${STAGING_BINDIR_NATIVE}${QT_DIR_NAME}/syncqt"
+EXTRA_OEMAKE += "QMAKE_SYNCQT=${OE_QMAKE_PATH_EXTERNAL_HOST_BINS}/syncqt"
 
 PACKAGECONFIG ??= "qtxmlpatterns"
 PACKAGECONFIG[qtxmlpatterns] = ",,qtxmlpatterns"
@@ -29,7 +29,7 @@ do_configure_prepend() {
     sed -e 's/^\(!qtHaveModule(xmlpatterns)\)/!OE_QTXMLPATTERNS_ENABLED|\1/' -i ${S}/tests/auto/quick/quick.pro
 
     #set the path for syncqt properly
-    echo "QT_TOOL.syncqt.binary = \"${STAGING_BINDIR_NATIVE}${QT_DIR_NAME}/syncqt\"" > ${B}/.qmake.cache
+    echo "QT_TOOL.syncqt.binary = \"${OE_QMAKE_PATH_EXTERNAL_HOST_BINS}/syncqt\"" > ${B}/.qmake.cache
 }
 
 EXTRA_QMAKEVARS_PRE += "${@bb.utils.contains('PACKAGECONFIG', 'qtxmlpatterns', 'CONFIG+=OE_QTXMLPATTERNS_ENABLED', '', d)}"
